@@ -1018,9 +1018,31 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 - No vintage in 2024 exhibits breakout 90+ concentration.
 - Overall: Credit risk peaks mid-2023 and becomes structurally more contained through 2024, without evidence of runaway deterioration.
 
+<br><br>
 
+**3.4D. Conclusion**
+Conclusion based on the three bullet points above :
+- A small number of vintages (Aug–Sep 2023 and Apr 2024) materially drive overall first-year risk outcomes.
+- The spike months show alignment across metrics: elevated default rate, elevated loss rate, and higher 30+ delinquency concentration, confirming true credit deterioration rather than measurement noise.
+- 2024 vintages exhibit tighter severe-delinquency containment, even though early-stage delinquency remains persistent.
+- Origination volume increases significantly in late 2024, raising total dollar exposure even when risk rates are moderate.
 
+**Answer to the business question:**
+First-year performance differs meaningfully by origination month, with identifiable high-risk vintages rather than a steady time trend. Risk concentration is episodic, and portfolio exposure grows as volumes expand.
 
+###Business Recommendation:###
+
+Look closely at August–September 2023 and April 2024.
+Those months clearly performed worse. Check what changed during those times — rules, pricing, customer type, or outside economic conditions.
+
+Watch loans that are 30+ days late.
+When more loans move past 30 days late, risk usually gets worse. Use that as a warning sign before defaults increase.
+
+Be careful when loan volume grows.
+Even if the default rate looks “normal,” a bigger book means bigger dollar losses.
+
+Focus on stopping loans from getting worse once they are slightly late.
+If you can prevent 1–29 day late loans from becoming 30–59 days late, you reduce future defaults.
 
 
 
