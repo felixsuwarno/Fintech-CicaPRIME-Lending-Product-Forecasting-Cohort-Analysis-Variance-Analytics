@@ -1021,6 +1021,7 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <br><br>
 
 **3.4D. Conclusion**
+
 Conclusion based on the three bullet points above :
 - A small number of vintages (Aug–Sep 2023 and Apr 2024) materially drive overall first-year risk outcomes.
 - The spike months show alignment across metrics: elevated default rate, elevated loss rate, and higher 30+ delinquency concentration, confirming true credit deterioration rather than measurement noise.
@@ -1030,7 +1031,7 @@ Conclusion based on the three bullet points above :
 **Answer to the business question:**
 First-year performance differs meaningfully by origination month, with identifiable high-risk vintages rather than a steady time trend. Risk concentration is episodic, and portfolio exposure grows as volumes expand.
 
-###Business Recommendation:###
+### Business Recommendation:
 
 Look closely at August–September 2023 and April 2024.
 Those months clearly performed worse. Check what changed during those times — rules, pricing, customer type, or outside economic conditions.
