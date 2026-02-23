@@ -989,12 +989,12 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 
 **SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
 - **Prepare MOB12 delinquency values for bucketing** (standardize DPD to a clean non-negative number): In **bucketed_delinquency**, select **loan_id** and set **vintage_month** from **origination_month**, then create dpd_mob12 by converting null DPD to 0 and forcing any negative values to 0, so every loan has a valid MOB12 days-past-due value.
-- **Assign each loan to a MOB12 delinquency bucket** (convert numeric DPD into a categorical risk stage): In the same CTE, map dpd_mob12 into:
-	00_current for 0 days past due,
-	01_1_29 for 1–29 days,
-	02_30_59 for 30–59 days,
-	03_60_89 for 60–89 days,
-	04_90_plus for 90+ days, so each loan has a single MOB12 delinquency state for vintage-level performance reporting.
+- **Assign each loan to a MOB12 delinquency bucket** (convert numeric DPD into a categorical risk stage): In the same CTE, map dpd_mob12 into:<br>
+	- 00_current for 0 days past due,
+ 	- 01_1_29 for 1–29 days,
+  	- 02_30_59 for 30–59 days,
+  	- 03_60_89 for 60–89 days,
+  	- 04_90_plus for 90+ days, so each loan has a single MOB12 delinquency state for vintage-level performance reporting.
 - **Output the final bucketed delinquency snapshot table** (one row per loan ready for vintage rollups): Output **loan_id**, **vintage_month**, **dpd_mob12**, **mob12_dpd_bucket**, ordered by vintage_month and loan_id, so the dataset can be aggregated by vintage to show end-of-first-year risk composition.
 
 <br>
