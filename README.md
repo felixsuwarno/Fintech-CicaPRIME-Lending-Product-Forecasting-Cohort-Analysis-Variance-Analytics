@@ -50,7 +50,7 @@ Consumer lending analytics and KPI design, credit portfolio performance analysis
 1. **Probability of default (PD)** <br> Which individual loans are most likely to default based on borrower, loan, and early behavior signals?
 2. **Exposure at default (EAD)** <br> How much exposure remains outstanding at the time loans default?
 3. **Loss given default (LGD)** <br> How severe are losses after recoveries, and how do they vary across segments?
-4. **Vintage risk performance** <br> At 12 months-on-book, how do cumulative default and cumulative loss rates compare across vintages?
+4. **Vintage risk performance** <br> How do loans from different origination months perform by the end of their first year?
 5. **Credit policy & decision thresholds** <br> Where should approval, review, and rejection thresholds be set based on predicted default risk?
 6. **Model monitoring & governance** <br> How stable and well-calibrated are credit risk models over time?
 
@@ -953,39 +953,45 @@ A Bucketed Delinquency Snapshot table shows, for each loan within a group that s
 The steps to generate this table is complex, therefore a procedure to reduce the complexity is implemented by dividing this into 6 tables.
 
 **SQL Methods for 03_4c1_loan_snapshot_table :**
-- **Filter to the loans we’re allowed to measure** (keep only eligible rows): In **loans_filtered**, select **loan_id**, **term_months**, **origination_date**, and compute **origination_month** as CAST(DATE_TRUNC('month', **origination_date**) AS DATE). Filter to **origination_date** >= DATE '2023-01-01' and < DATE '2025-01-01', and **term_months** >= 12, so we only keep 2023–2024 originations with at least a 12-month term.
-- **Create the MOB 11 and MOB 12 snapshot dates** (make the two “checkpoints”): In **loan_snapshots**, carry forward the loan fields, then compute:
-  - **snapshot_date_mob11** as CAST(DATE_TRUNC('month', **origination_month**) + INTERVAL '12 month' - INTERVAL '1 day' AS DATE) (end of MOB 11),
-  - **snapshot_date_mob12** as CAST(DATE_TRUNC('month', **origination_month**) + INTERVAL '13 month' - INTERVAL '1 day' AS DATE) (end of MOB 12), so each loan has the end-of-month snapshot dates you’ll use later.
-- **Finalize the loan snapshot output shape** (keep only the columns we want downstream): In **loan_snapshots_output**, select only **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** from **loan_snapshots**, so the next steps join to one clean, consistent loan-level table.
-
+- **Select the eligible loans for analysis** (restrict to valid originations and terms): In **loans_filtered**, **select** loan_id, **term_months**, **origination_date**, and derive origination_month as the first day of the origination month. Keep only loans originated from 2023 through 2024 and with **term_months** of at least 12, so the dataset includes loans that can be evaluated through MOB 12.
+- **Generate the MOB 11 and MOB 12 snapshot dates** (define the two evaluation checkpoints): In loan_snapshots, carry forward the loan fields and compute:
+  - **snapshot_date_mob11** as the last calendar day of month-on-book 11,
+  - **snapshot_date_mob12** as the last calendar day of month-on-book 12, so each loan has clearly defined end-of-month snapshot dates for delinquency measurement.
+  - **Shape the final loan snapshot table for downstream use** (produce a clean loan-level table): In **loan_snapshots_output**, retain only **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**, so all later joins use one consistent, loan-level snapshot dataset.
 <br>
 
 **SQL Methods for 03_4c2_contractual_payment_schedule_table :**
-- **Keep only the payment schedule fields we need** (one clean row per installment): In **payment_schedule_prep**, select **loan_id**, **installment_no**, **due_date**, **due_total** from **payment_schedule**, ordered by **loan_id**, **installment_no**.
-- **Compute the running total of scheduled payments per loan** (cumulative scheduled due): In **payment_schedule_add_cumulative**, keep the installment fields and add **cumulative_scheduled_payment** as SUM(due_total) OVER (PARTITION BY **loan_id** ORDER BY **due_date**, **installment_no** ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) so each installment has the total scheduled amount due up to that installment.
-- **Finalize the payment schedule cumulative output shape** (keep only the columns we want downstream): In **payment_schedule_add_cumulative_output**, select **loan_id**, **installment_no**, **due_date**, **due_total**, **cumulative_scheduled_payment** from **payment_schedule_add_cumulative**, ordered by **loan_id**, **installment_no**.
+- **Prepare a clean installment-level schedule table** (retain only the necessary contractual fields): In **payment_schedule_prep**, select **loan_id**, **installment_no**, **due_date**, **due_total** from **payment_schedule**, ordered by **loan_id** and **installment_no**, so each row represents one contractual installment.
+- **Add cumulative scheduled amount per loan** (calculate the running total of contractual payments): In **payment_schedule_add_cumulative**, keep the installment fields and compute **cumulative_scheduled_payment** as the running sum of **due_total** within each **loan_id**, ordered by **due_date** and **installment_no**, so each installment reflects the total scheduled amount due up to that point.
+- **Output the finalized contractual schedule with cumulative totals** (shape the table for downstream joins): In **payment_schedule_add_cumulative_output**, select **loan_id**, **installment_no**, **due_date**, **due_total**, **cumulative_scheduled_payment** from **payment_schedule_add_cumulative**, ordered by **loan_id** and **installment_no**, so the table is ready for snapshot-level analysis.
 
 <br>
 
 **SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table.txt**
-- **Join loan snapshots to the full installment schedule** (attach scheduled cumulative values to each loan’s installments): In **lps_JOIN_installments**, join cica_prime."**03_4c1_loan_snapshot_table**" l to cica_prime."**03_4c2_payment_schedule_cumulative_table**" p on **loan_id**, and select l.**loan_id**, p.**installment_no**, l.**term_months**, l.**origination_date**, l.**origination_month**, l.**snapshot_date_mob11**, l.**snapshot_date_mob12**, p.**cumulative_scheduled_payment**.
-- **Pull the scheduled cumulative due at MOB 11 and MOB 12** (reduce installments to one row per loan with the two snapshot measures): In **lps_AGG_scheduled_payment_due_at_snapshots**, group by **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** and compute:
-  - **scheduled_cumulative_pay_mob11** as MAX(CASE WHEN **installment_no** = 11 THEN **cumulative_scheduled_payment** END),
-  - **scheduled_cumulative_pay_mob12** as MAX(CASE WHEN **installment_no** = 12 THEN **cumulative_scheduled_payment** END),
-    so each loan has the scheduled cumulative amount due at each snapshot.
+- **Attach installment-level scheduled cumulative amounts to each loan snapshot** (prepare one row per loan per installment with scheduled totals): In **lps_JOIN_installments**, join cica_prime."**03_4c1_loan_snapshot_table**" to cica_prime."**03_4c2_payment_schedule_cumulative_table**" on **loan_id**, keeping the loan snapshot fields (**loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**) together with **installment_no** and **cumulative_scheduled_payment**, so each installment row carries the running scheduled amount for that loan.
+- **Extract the scheduled cumulative amount at MOB 11 and MOB 12 **(collapse installment rows into one row per loan with two snapshot values): In **lps_AGG_scheduled_payment_due_at_snapshots**, group to one row per loan using the loan snapshot fields, and determine:
+  - **scheduled_cumulative_pay_mob11** as the cumulative scheduled amount corresponding to installment 11,
+  - **scheduled_cumulative_pay_mob12** as the cumulative scheduled amount corresponding to installment 12, so each loan ends with the total scheduled amount due by MOB 11 and by MOB 12.
 
 <br>
 
 **SQL Methods for 03_4c4_cumulative_paid_at_snapshots_table :**
-- **Left join loans to all payments** (attach every payment record to each loan so we can sum paid-to-date): In **loans_JOIN_payments**, left join "**03_4c1_loan_snapshot_table**" l to payments p on **loan_id**, and select l.**loan_id**, l.**term_months**, l.**origination_date**, l.**origination_month**, l.**snapshot_date_mob11**, l.**snapshot_date_mob12**, p.**payment_date**, p.**payment_amount**.
-- **Sum payments made up to each snapshot date** (compute cumulative paid at MOB 11 and MOB 12 per loan): In **lp_AGG_paid_to_date_at_snapshots**, group by **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** and compute:
-  - **cumulative_paid_mob11** as SUM(CASE WHEN **payment_date** <= **snapshot_date_mob11** THEN **payment_amount** ELSE 0 END),
-  - **cumulative_paid_mob12** as SUM(CASE WHEN **payment_date** <= **snapshot_date_mob12** THEN **payment_amount** ELSE 0 END),so each loan has total paid-to-date at each snapshot.
+- **Attach all payment records to each loan snapshot** (prepare loan-level data with every payment available for accumulation): In **loans_JOIN_payments**, left join "**03_4c1_loan_snapshot_table**" to payments on **loan_id**, keeping the loan snapshot fields (**loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**) together with **payment_date** and **payment_amount**, so each loan row carries all its payment history.
+- **Calculate total paid by each snapshot date** (reduce to one row per loan with paid-to-date measures): In **lp_AGG_paid_to_date_at_snapshots**, group to one row per loan using the loan snapshot fields, and compute:
+  - **cumulative_paid_mob11** as the total of **payment_amount** for payments made on or before **snapshot_date_mob11**,
+  - **cumulative_paid_mob12** as the total of **payment_amount** for payments made on or before **snapshot_date_mob12**, so each loan ends with the cumulative amount paid by MOB 11 and MOB 12.
+    
 <br>
 
 **SQL Methods for 03_4c5_dpd_at_snapshots_table :**
-
+- **Join loan snapshots with installment-level scheduled amounts and paid-to-date measures** (build the full loan-installment base table): In **loans_JOIN_payment_scheduled_JOIN_cumulative_paid_snapshot**, join the loan snapshot table to the cumulative scheduled payment table and the cumulative paid-at-snapshot table on loan_id, keeping one row per loan per installment with **loan_id**, **term_months**, **origination_date**, **origination_month**, **installment_no**, **due_date**, **scheduled_cumulative**, **snapshot_date_mob11**, **cumulative_paid_mob11**, **snapshot_date_mob12**, **cumulative_paid_mob12** so each installment knows how much was scheduled and how much was paid by each snapshot.
+- **Identify the first missed installment at each snapshot** (reduce to one delinquency trigger date per loan): In **first_unpaid_per_loan**, group to one row per loan and determine:
+  - **first_unpaid_due_date_mob11** as the earliest **due_date** where total scheduled exceeds total paid by MOB 11,
+  - **first_unpaid_due_date_mob12** as the earliest **due_date** where total scheduled exceeds total paid by MOB 12,so each loan has the first due date that is not fully covered at each checkpoint.
+- **Translate missed installment dates into Days Past Due (DPD) values** (convert delinquency into a numeric measure): In **dpd_at_snapshots**, compute:
+  - **days_past_due_mob11** as 0 if there is no missed installment by MOB 11, otherwise the number of days between **snapshot_date_mob11** and **first_unpaid_due_date_mob11**,
+  - **days_past_due_mob12** as 0 if there is no missed installment by MOB 12, otherwise the number of days between **snapshot_date_mob12** and **first_unpaid_due_date_mob12**, so each loan ends with a clear delinquency measure at MOB 11 and MOB 12.
+  - 
 <br>
 
 **SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
