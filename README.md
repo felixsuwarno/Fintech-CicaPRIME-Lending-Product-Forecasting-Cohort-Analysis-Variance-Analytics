@@ -955,11 +955,9 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <br>
 
 **SQL Methods for 03_4c1_loan_snapshot_table :**
-- **Select the eligible loans for analysis** (restrict to valid originations and terms): In **loans_filtered**, **select** loan_id, **term_months**, **origination_date**, and derive origination_month as the first day of the origination month. Keep only loans originated from 2023 through 2024 and with **term_months** of at least 12, so the dataset includes loans that can be evaluated through MOB 12.
-- **Generate the MOB 11 and MOB 12 snapshot dates** (define the two evaluation checkpoints): In loan_snapshots, carry forward the loan fields and compute:
-  - **snapshot_date_mob11** as the last calendar day of month-on-book 11,
-  - **snapshot_date_mob12** as the last calendar day of month-on-book 12, so each loan has clearly defined end-of-month snapshot dates for delinquency measurement.
-  - **Shape the final loan snapshot table for downstream use** (produce a clean loan-level table): In **loan_snapshots_output**, retain only **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**, so all later joins use one consistent, loan-level snapshot dataset.
+- **Filter to the loans we’re allowed to measure** (keep only eligible loans for a fully observable first-year window): In **loans_filtered**, select **loan_id**, **term_months**, **origination_date**, and derive **origination_month** as the first day of the origination month. Filter to loans originated in 2023–2024 and with term_months ≥ 12, so every loan can be evaluated through MOB12.
+- **Create the MOB12 snapshot date** (define the end-of-first-year checkpoint): In **loan_snapshots**, carry forward the loan fields and compute **snapshot_date_mob12** as the last calendar day of month-on-book 12, so each loan has a single, consistent “end of first year” date for delinquency measurement.
+- **Finalize the loan snapshot output shape** (produce the clean loan-level snapshot table for downstream joins): In **loan_snapshots_output**, keep only **loan_id**, **term_months**, **origination_date**, **origination_month**, and **snapshot_date_mob12**, so all later steps join to one consistent loan snapshot dataset.
 
 <br>
 
