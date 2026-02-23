@@ -962,15 +962,26 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <br>
 
 **SQL Methods for 03_4c2_contractual_payment_schedule_table :**
+- **Keep only the payment schedule fields we need** (one clean row per installment): In **payment_schedule_prep**, select **loan_id**, **installment_no**, **due_date**, **due_total** from **payment_schedule**, ordered by **loan_id**, **installment_no**.
+- **Compute the running total of scheduled payments per loan** (cumulative scheduled due): In **payment_schedule_add_cumulative**, keep the installment fields and add **cumulative_scheduled_payment** as SUM(due_total) OVER (PARTITION BY **loan_id** ORDER BY **due_date**, **installment_no** ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) so each installment has the total scheduled amount due up to that installment.
+- **Finalize the payment schedule cumulative output shape** (keep only the columns we want downstream): In **payment_schedule_add_cumulative_output**, select **loan_id**, **installment_no**, **due_date**, **due_total**, **cumulative_scheduled_payment** from **payment_schedule_add_cumulative**, ordered by **loan_id**, **installment_no**.
 
 <br>
 
 **SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table.txt**
+- **Join loan snapshots to the full installment schedule** (attach scheduled cumulative values to each loan’s installments): In **lps_JOIN_installments**, join cica_prime."**03_4c1_loan_snapshot_table**" l to cica_prime."**03_4c2_payment_schedule_cumulative_table**" p on **loan_id**, and select l.**loan_id**, p.**installment_no**, l.**term_months**, l.**origination_date**, l.**origination_month**, l.**snapshot_date_mob11**, l.**snapshot_date_mob12**, p.**cumulative_scheduled_payment**.
+- **Pull the scheduled cumulative due at MOB 11 and MOB 12** (reduce installments to one row per loan with the two snapshot measures): In **lps_AGG_scheduled_payment_due_at_snapshots**, group by **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** and compute:
+  - **scheduled_cumulative_pay_mob11** as MAX(CASE WHEN **installment_no** = 11 THEN **cumulative_scheduled_payment** END),
+  - **scheduled_cumulative_pay_mob12** as MAX(CASE WHEN **installment_no** = 12 THEN **cumulative_scheduled_payment** END),
+    so each loan has the scheduled cumulative amount due at each snapshot.
 
 <br>
 
 **SQL Methods for 03_4c4_cumulative_paid_at_snapshots_table :**
-
+- **Left join loans to all payments** (attach every payment record to each loan so we can sum paid-to-date): In **loans_JOIN_payments**, left join "**03_4c1_loan_snapshot_table**" l to payments p on **loan_id**, and select l.**loan_id**, l.**term_months**, l.**origination_date**, l.**origination_month**, l.**snapshot_date_mob11**, l.**snapshot_date_mob12**, p.**payment_date**, p.**payment_amount**.
+- **Sum payments made up to each snapshot date** (compute cumulative paid at MOB 11 and MOB 12 per loan): In **lp_AGG_paid_to_date_at_snapshots**, group by **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** and compute:
+  - **cumulative_paid_mob11** as SUM(CASE WHEN **payment_date** <= **snapshot_date_mob11** THEN **payment_amount** ELSE 0 END),
+  - **cumulative_paid_mob12** as SUM(CASE WHEN **payment_date** <= **snapshot_date_mob12** THEN **payment_amount** ELSE 0 END),so each loan has total paid-to-date at each snapshot.
 <br>
 
 **SQL Methods for 03_4c5_dpd_at_snapshots_table :**
