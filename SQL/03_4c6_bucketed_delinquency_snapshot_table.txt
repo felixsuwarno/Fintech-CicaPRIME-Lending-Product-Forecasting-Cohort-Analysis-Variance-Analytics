@@ -1,0 +1,23 @@
+WITH bucketed_delinquency AS
+(
+    SELECT
+        loan_id,
+        origination_month AS vintage_month,
+
+        GREATEST(0, COALESCE(days_past_due_mob12, 0)) AS dpd_mob12,
+
+        CASE
+            WHEN GREATEST(0, COALESCE(days_past_due_mob12, 0)) = 0 THEN '00_current'
+            WHEN GREATEST(0, COALESCE(days_past_due_mob12, 0)) BETWEEN 1 AND 29 THEN '01_1_29'
+            WHEN GREATEST(0, COALESCE(days_past_due_mob12, 0)) BETWEEN 30 AND 59 THEN '02_30_59'
+            WHEN GREATEST(0, COALESCE(days_past_due_mob12, 0)) BETWEEN 60 AND 89 THEN '03_60_89'
+            ELSE '04_90_plus'
+        END AS mob12_dpd_bucket
+
+    FROM cica_prime."03_4c5_dpd_at_snapshots_table"
+    ORDER BY origination_month, loan_id
+)
+
+SELECT *
+FROM bucketed_delinquency
+ORDER BY vintage_month, loan_id;

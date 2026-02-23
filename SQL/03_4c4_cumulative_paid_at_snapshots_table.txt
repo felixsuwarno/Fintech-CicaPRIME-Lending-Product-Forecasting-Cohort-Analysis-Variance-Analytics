@@ -1,0 +1,37 @@
+WITH loans_JOIN_payments AS
+(
+    SELECT
+        l.loan_id,
+        l.term_months,
+        l.origination_date,
+        l.origination_month,
+        l.snapshot_date_mob12,
+        p.payment_date,
+        p.payment_amount
+    FROM "03_4c1_loan_snapshot_table" l
+    LEFT JOIN payments p
+        ON l.loan_id = p.loan_id
+    ORDER BY l.loan_id, p.payment_date
+),
+
+lp_AGG_paid_to_date_at_snapshots AS
+(
+    SELECT
+        loan_id,
+        term_months,
+        origination_date,
+        origination_month,
+        snapshot_date_mob12,
+        SUM(CASE WHEN payment_date <= snapshot_date_mob12 THEN payment_amount ELSE 0 END) AS cumulative_paid_mob12
+    FROM loans_JOIN_payments
+    GROUP BY
+        loan_id,
+        term_months,
+        origination_date,
+        origination_month,
+        snapshot_date_mob12
+    ORDER BY loan_id
+)
+
+SELECT *
+FROM lp_AGG_paid_to_date_at_snapshots;
