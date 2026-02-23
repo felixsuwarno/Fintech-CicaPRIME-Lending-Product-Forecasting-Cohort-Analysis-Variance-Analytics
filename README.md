@@ -952,12 +952,15 @@ A Bucketed Delinquency Snapshot table shows, for each loan within a group that s
 
 The steps to generate this table is complex, therefore a procedure to reduce the complexity is implemented by dividing this into 6 tables.
 
+<br>
+
 **SQL Methods for 03_4c1_loan_snapshot_table :**
 - **Select the eligible loans for analysis** (restrict to valid originations and terms): In **loans_filtered**, **select** loan_id, **term_months**, **origination_date**, and derive origination_month as the first day of the origination month. Keep only loans originated from 2023 through 2024 and with **term_months** of at least 12, so the dataset includes loans that can be evaluated through MOB 12.
 - **Generate the MOB 11 and MOB 12 snapshot dates** (define the two evaluation checkpoints): In loan_snapshots, carry forward the loan fields and compute:
   - **snapshot_date_mob11** as the last calendar day of month-on-book 11,
   - **snapshot_date_mob12** as the last calendar day of month-on-book 12, so each loan has clearly defined end-of-month snapshot dates for delinquency measurement.
   - **Shape the final loan snapshot table for downstream use** (produce a clean loan-level table): In **loan_snapshots_output**, retain only **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**, so all later joins use one consistent, loan-level snapshot dataset.
+
 <br>
 
 **SQL Methods for 03_4c2_contractual_payment_schedule_table :**
@@ -967,7 +970,7 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 
 <br>
 
-**SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table.txt**
+**SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table :**
 - **Attach installment-level scheduled cumulative amounts to each loan snapshot** (prepare one row per loan per installment with scheduled totals): In **lps_JOIN_installments**, join cica_prime."**03_4c1_loan_snapshot_table**" to cica_prime."**03_4c2_payment_schedule_cumulative_table**" on **loan_id**, keeping the loan snapshot fields (**loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12**) together with **installment_no** and **cumulative_scheduled_payment**, so each installment row carries the running scheduled amount for that loan.
 - **Extract the scheduled cumulative amount at MOB 11 and MOB 12 **(collapse installment rows into one row per loan with two snapshot values): In **lps_AGG_scheduled_payment_due_at_snapshots**, group to one row per loan using the loan snapshot fields, and determine:
   - **scheduled_cumulative_pay_mob11** as the cumulative scheduled amount corresponding to installment 11,
@@ -995,6 +998,15 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <br>
 
 **SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
+- **Standardize DPD values to non-negative numbers** (clean nulls and prevent negative delinquency): In **bucketed_delinquency**, select from cica_prime."**03_4c5_dpd_at_snapshots_table**" and create **dpd_mob11** and **dpd_mob12** by replacing null values with 0 and forcing any negative values to 0, so delinquency is always zero or positive.
+- **Assign delinquency bucket at MOB 11** (convert numeric DPD into categorical risk stage): Still in bucketed_delinquency, classify dpd_mob11 into:
+    '**00_current**' 	for 0 days,
+    '**01_1_29**' 		for 1–29 days,
+    '**02_30_59**' 		for 30–59 days,
+    '**03_60_89**' 		for 60–89 days,
+    '**04_90_plus**' 	for 90 or more days, so each loan has a clear delinquency stage at MOB 11.
+- **Assign delinquency bucket at MOB 12** (repeat classification for the next checkpoint): In the same CTE, classify **dpd_mob12** using the same bucket structure, so each loan has a comparable delinquency stage at MOB 12.
+- **Produce the final bucketed output** (one row per loan with vintage and two bucket states): Output **loan_id**, **vintage_month**, **dpd_mob11**, **dpd_mob12**, **mob11_dpd_bucket**, **mob12_dpd_bucket**, ordered by vintage_month and **loan_id**, so the table is ready for roll-rate analysis.
 
 <br>
 
