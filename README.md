@@ -994,7 +994,7 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 - **Translate missed installment dates into Days Past Due (DPD) values** (convert delinquency into a numeric measure): In **dpd_at_snapshots**, compute:
   - **days_past_due_mob11** as 0 if there is no missed installment by MOB 11, otherwise the number of days between **snapshot_date_mob11** and **first_unpaid_due_date_mob11**,
   - **days_past_due_mob12** as 0 if there is no missed installment by MOB 12, otherwise the number of days between **snapshot_date_mob12** and **first_unpaid_due_date_mob12**, so each loan ends with a clear delinquency measure at MOB 11 and MOB 12.
-  - 
+    
 <br>
 
 **SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
