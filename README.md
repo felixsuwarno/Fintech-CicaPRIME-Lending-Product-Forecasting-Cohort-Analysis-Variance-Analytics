@@ -881,8 +881,8 @@ The fully observable window in this dataset is between 2023 to 2024 dataset, so 
 For the purpose of answering this business question, there will be three separate reports ( tables ).
 - cumulative default table
 - cumulative loss table
-- delinquency roll-rate table
-   
+- bucketed delinquency snapshot table
+
 <br> 
 
 **3.4A. Cumulative Default Rate Table**  
