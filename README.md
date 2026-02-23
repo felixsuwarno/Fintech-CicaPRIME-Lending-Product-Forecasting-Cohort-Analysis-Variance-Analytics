@@ -1009,6 +1009,14 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <p align="center">
   <img src="Charts/03_4c_bucketed_delinquency_snapshot.png" style="width:100%;">
 </
+	
+**Key Insights :**
+- Early 2023 vintages show extreme distributions (100% in one bucket), indicating very small sample sizes rather than true credit performance.
+- April–July 2023 represent the weakest vintages, with elevated 30–59%, meaningful 60–89%, and noticeable 90+ exposure.
+- Late 2023 moderates from that peak but still carries broader delinquency dispersion compared to 2024.
+- From early 2024 onward, 00_current holds consistently around ~55–65%, while 90+ remains mostly below ~5–6%, showing contained severe delinquency.
+- No vintage in 2024 exhibits breakout 90+ concentration.
+- Overall: Credit risk peaks mid-2023 and becomes structurally more contained through 2024, without evidence of runaway deterioration.
 
 
 
