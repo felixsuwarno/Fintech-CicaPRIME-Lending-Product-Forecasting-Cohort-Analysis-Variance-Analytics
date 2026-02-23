@@ -1000,5 +1000,19 @@ The steps to generate this table is complex, therefore a procedure to reduce the
 <br>
 
 **Python Methods :**
-- Python is used to visualize the chart, no further processing is necessary.
+- **Count loans per vintage and bucket** (build numerator): Group by **vintage_month** and **mob12_dpd_bucket**, count **loan_id**, and store as **n_loans**.
+- **Count total loans per vintage** (build denominator): Group by **vintage_month**, count **loan_id**, and store as **n_total**.
+- **Compute share within each vintage** (risk composition measure): Merge counts with totals and compute: **pct** = **n_loans** / **n_total** so each bucket becomes a percentage of that vintage.
+- **Create a full vintage × bucket grid** (avoid missing rows): Cross-join all vintages with all 5 buckets so that even buckets with zero loans appear explicitly.
+- **Produce final composition table** (plot-ready dataset): Merge the grid with computed counts and percentages, fill missing values with zero, and sort by vintage and bucket order.
+
+<p align="center">
+  <img src="Charts/03_4c_bucketed_delinquency_snapshot.png" style="width:100%;">
+</
+
+
+
+
+
+
 
