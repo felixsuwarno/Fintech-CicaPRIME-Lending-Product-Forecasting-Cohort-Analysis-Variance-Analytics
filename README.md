@@ -874,7 +874,7 @@ The rules and definition :
 <br>
 
 **3.4. Vintage risk performance**  
-How do cumulative default and cumulative loss rates compare across origination vintages at 12 months-on-book?
+How do loans from different origination months perform by the end of their first year?
 
 The fully observable window in this dataset is between 2023 to 2024 dataset, so all of the calculations we make here reflect that.
 
@@ -945,4 +945,27 @@ A cumulative loss table shows, for each group of loans that started in the same 
 - Late 2024 loss rates increase again (~3%), suggesting risk rises alongside higher origination volumes.
 - Overall: Portfolio loss performance is volatile across vintages, not stable.
 
+<br><br>
+
+**3.4C. Bucketed Delinquency Snapshot Table**  
+A Bucketed Delinquency Snapshot table shows, for each loan within a group that started in the same month, how far behind on payments that loan was at specific points in time, such as 11 and 12 months after origination. Instead of showing the exact number of days late, the table groups loans into clear categories like current, 1–29 days past due, 30–59 days past due, 60–89 days past due, or 90+ days past due. This allows us to see how payment status changed near the end of the first year and compare delinquency patterns across different origination months.
+
+The steps to generate this table is complex, therefore a procedure to reduce the complexity is implemented by dividing this into 6 tables.
+
+**SQL Methods for 03_4c1_loan_snapshot_table :**
+
+**SQL Methods for 03_4c2_contractual_payment_schedule_table :**
+
+**SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table.txt**
+
+**SQL Methods for 03_4c4_cumulative_paid_at_snapshots_table :**
+
+**SQL Methods for 03_4c5_dpd_at_snapshots_table :**
+
+**SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
+
+<br>
+
+**Python Methods :**
+- Python is used to visualize the chart, no further processing is necessary.
 
