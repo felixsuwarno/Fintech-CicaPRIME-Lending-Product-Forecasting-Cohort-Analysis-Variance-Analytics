@@ -1,0 +1,51 @@
+--  the goal is to prep payment_schedule table and calculate cumulative scheduled payment per loan
+
+WITH payment_schedule_prep AS
+(
+    SELECT 
+        loan_id,
+        installment_no,
+        due_date,
+        due_total
+
+	FROM payment_schedule
+
+	ORDER BY loan_id, installment_no
+),
+
+payment_schedule_add_cumulative AS
+(
+    SELECT
+        loan_id,
+        installment_no,
+        due_date,
+        due_total,
+
+        SUM(due_total) OVER
+        (
+            PARTITION BY loan_id
+            ORDER BY due_date, installment_no
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS cumulative_scheduled_payment
+
+	FROM payment_schedule_prep
+
+	ORDER BY loan_id, installment_no
+),
+
+payment_schedule_add_cumulative_output AS
+(
+    SELECT
+        loan_id,
+        installment_no,
+        due_date,
+        due_total,
+        cumulative_scheduled_payment
+
+	FROM payment_schedule_add_cumulative
+
+	ORDER BY loan_id, installment_no
+)
+
+SELECT *
+FROM payment_schedule_add_cumulative_output;

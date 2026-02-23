@@ -1,0 +1,52 @@
+--  the goal is to prep loans table and simply calculate the date for month on book 11 and 12
+
+WITH loans_filtered AS
+(
+    SELECT
+        loan_id,
+        term_months,
+        origination_date,
+        CAST(DATE_TRUNC('month', origination_date) AS DATE) AS origination_month
+
+	FROM loans
+
+	WHERE 	origination_date >= DATE '2023-01-01'
+      		AND 
+			origination_date <  DATE '2025-01-01'
+      		AND 
+			term_months >= 12
+
+	ORDER BY loan_id, origination_date
+),
+
+loan_snapshots AS
+(
+    SELECT
+        loan_id,
+        term_months,
+        origination_date,
+        origination_month,
+
+        CAST(DATE_TRUNC('month', origination_month) + INTERVAL '12 month' - INTERVAL '1 day' AS DATE) AS snapshot_date_mob11,
+
+        CAST(DATE_TRUNC('month', origination_month) + INTERVAL '13 month' - INTERVAL '1 day' AS DATE) AS snapshot_date_mob12
+
+    FROM loans_filtered
+    ORDER BY loan_id, origination_date
+),
+
+loan_snapshots_output AS
+(
+    SELECT
+        loan_id,
+        term_months,
+        origination_date,
+        origination_month,
+        snapshot_date_mob11,
+        snapshot_date_mob12
+    FROM loan_snapshots
+    ORDER BY loan_id, origination_date
+)
+
+SELECT *
+FROM loan_snapshots_output;
