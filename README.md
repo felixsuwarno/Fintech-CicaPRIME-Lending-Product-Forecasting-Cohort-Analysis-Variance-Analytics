@@ -953,14 +953,29 @@ A Bucketed Delinquency Snapshot table shows, for each loan within a group that s
 The steps to generate this table is complex, therefore a procedure to reduce the complexity is implemented by dividing this into 6 tables.
 
 **SQL Methods for 03_4c1_loan_snapshot_table :**
+- **Filter to the loans we’re allowed to measure** (keep only eligible rows): In **loans_filtered**, select **loan_id**, **term_months**, **origination_date**, and compute **origination_month** as CAST(DATE_TRUNC('month', **origination_date**) AS DATE). Filter to **origination_date** >= DATE '2023-01-01' and < DATE '2025-01-01', and **term_months** >= 12, so we only keep 2023–2024 originations with at least a 12-month term.
+- **Create the MOB 11 and MOB 12 snapshot dates** (make the two “checkpoints”): In **loan_snapshots**, carry forward the loan fields, then compute:
+  - **snapshot_date_mob11** as CAST(DATE_TRUNC('month', **origination_month**) + INTERVAL '12 month' - INTERVAL '1 day' AS DATE) (end of MOB 11),
+  - **snapshot_date_mob12** as CAST(DATE_TRUNC('month', **origination_month**) + INTERVAL '13 month' - INTERVAL '1 day' AS DATE) (end of MOB 12), so each loan has the end-of-month snapshot dates you’ll use later.
+- **Finalize the loan snapshot output shape** (keep only the columns we want downstream): In **loan_snapshots_output**, select only **loan_id**, **term_months**, **origination_date**, **origination_month**, **snapshot_date_mob11**, **snapshot_date_mob12** from **loan_snapshots**, so the next steps join to one clean, consistent loan-level table.
+
+<br>
 
 **SQL Methods for 03_4c2_contractual_payment_schedule_table :**
 
+<br>
+
 **SQL Methods for 03_4c3_cumulative_scheduled_payment_at_snapshots_table.txt**
+
+<br>
 
 **SQL Methods for 03_4c4_cumulative_paid_at_snapshots_table :**
 
+<br>
+
 **SQL Methods for 03_4c5_dpd_at_snapshots_table :**
+
+<br>
 
 **SQL Methods for 03_4c6_bucketed_delinquency_snapshot_table :**
 
