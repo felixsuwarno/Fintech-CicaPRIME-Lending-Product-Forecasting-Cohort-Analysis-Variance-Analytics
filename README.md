@@ -1105,11 +1105,11 @@ How well does the current decision score predict which borrowers are more likely
   - Create score_band_rank so the results sort from lowest score band (highest risk) to highest score band (lowest risk).
 
 **Python methods :**
-- None, python is use to visualize the chart without further data modeling steps.
+- None, python is used to visualize the chart without further data modeling steps.
 
 <p align="center">
   <img src="Charts/03_5_decision_score_effectiveness.png" style="width:100%;">
-</
+</>
 
 **Key Insights :**
 - **The lowest visible score band shows the highest observed default risk.** The 550–599 band has a 16.67% 12-month default rate, materially above the higher score bands, although the sample size is small.
