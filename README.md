@@ -3,9 +3,11 @@
 # Fintech CicaPRIME - Lending Product - Forecasting, Cohort Analysis & Variance Analytics  
 **Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Stress Testing**
 
-This project analyzes three years of synthetic consumer installment lending data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset contains loan-level, customer-level, and payment-level records, along with repayment schedules, macroeconomic scenarios, and internal budget plans.
+Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Credit Risk Analytics
 
-The analysis evaluates revenue forecasting, budget vs. actual variance, borrower cohort behavior, churn dynamics, lifetime value and value concentration, vintage performance, and macro-driven stress scenarios. The full workflow is built end-to-end using SQL and Python across a dataset representing the entire customer and loan lifecycle—from acquisition and origination to repayment, delinquency, and loss outcomes.
+This project analyzes three years of synthetic consumer installment lending data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset contains loan-level, customer-level, and payment-level records, along with repayment schedules and internal budget plans.
+
+The analysis evaluates revenue forecasting, budget vs. actual variance, borrower cohort behavior, churn dynamics, lifetime value and value concentration, vintage performance, and credit risk dynamics. The full workflow is built end-to-end using SQL and Python across a dataset representing the entire customer and loan lifecycle—from acquisition and origination to repayment, delinquency, and loss outcomes.
 
 <br><br>
 
@@ -13,16 +15,16 @@ The analysis evaluates revenue forecasting, budget vs. actual variance, borrower
 
 This project evaluates how a simulated fintech lending portfolio performs over time—examining whether portfolio growth is stable, whether revenue generation is sustainable, and where the business may be exposed to downside risk.
 
-The analysis measures trends in revenue and cash collections, compares realized results against internal plans to assess forecasting accuracy, and models borrower behavior at the customer level. This includes analyzing borrower activation, repeat borrowing patterns, inactivity risk, and identifying which customer segments generate the most long-term value.
+The analysis measures trends in revenue and cash collections, compares realized results against internal plans to assess forecasting accuracy, and models borrower behavior at the borrower level. This includes analyzing borrower activation, repeat borrowing patterns, inactivity risk, and identifying which borrower segments generate the most long-term value.
 
-At the portfolio level, the project analyzes value concentration and credit risk distribution, tracks how borrower cohorts perform across their lifecycle, and evaluates how the portfolio behaves under adverse economic scenarios. The objective is to determine whether growth is supported by healthy fundamentals or overly dependent on a small subset of borrowers.
+At the portfolio level, the project analyzes value concentration and credit risk distribution, tracks how borrower cohorts perform across their lifecycle, and evaluates how portfolio performance changes as credit risk conditions evolve. The objective is to determine whether growth is supported by healthy fundamentals or overly dependent on a small subset of borrowers.
 
 
 <br><br>
 
 ➤ **Skills Demonstrated:**  
 
-Time-series revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value (LTV) analysis, concentration and dependency analysis, vintage performance tracking, probability of default (PD) modeling, loss analysis (EAD, LGD).
+Time-series revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value (LTV) analysis, concentration and dependency analysis, vintage performance tracking, probability of default (PD) modeling, loss analysis (EAD, LGD), and decision score effectiveness analysis.
 
 **(SQL • Python • Pandas • Time-Series Forecasting • Cohort Analysis • Executive-Ready Analysis)**
 
@@ -50,12 +52,7 @@ Time-series revenue forecasting, budget vs actual variance analysis, customer co
 2. **Exposure at default (EAD)** <br> How much exposure remains outstanding at the time loans default?
 3. **Loss given default (LGD)** <br> How severe are losses after recoveries, and how do they vary across segments?
 4. **Vintage risk performance** <br> How do loans from different origination months perform by the end of their first year?
-5. **Credit policy & decision thresholds** <br> Where should approval, review, and rejection thresholds be set based on predicted default risk?
-6. **Model monitoring & governance** <br> How stable and well-calibrated are credit risk models over time?
-
-**4 — Portfolio Fragility & Stress Testing**
-
-1. **Macro stress & portfolio survival** <br> Under adverse macroeconomic scenarios, can portfolio revenue absorb stressed credit losses without threatening business viability?
+5. **Decision Score Effectiveness** <br> How effectively does the current decision score separate low-risk and high-risk borrowers?
 
 <br><br>
 
