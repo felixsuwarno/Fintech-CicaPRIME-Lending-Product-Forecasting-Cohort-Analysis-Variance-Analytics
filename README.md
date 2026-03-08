@@ -239,7 +239,7 @@ Did actual revenue earned, cash collected, and credit losses differ from what ma
 This work produces three tables.
 
 **Actual Revenue:**
-- **Identify realized revenue cashflows:** Use the payments table and keep only rows where **payment_type** IN ('scheduled','**partial******') so revenue reflects interest/fees actually collected.
+- **Identify realized revenue cashflows:** Use the payments table and keep only rows where **payment_type** IN ('scheduled','**partial**') so revenue reflects interest/fees actually collected.
 - **Aggregate to monthly revenue:** Group by **payment_date** month and sum **paid_fee_interest** to produce **actual_revenue** by year_month.
 - **Preserve missing months:** Left join the monthly revenue series to **dim_month** on **month_start** so every month appears even when revenue is zero, and fill missing months with 0.
 - **Output the revenue table:** Return **year_month** and **actual_revenue** ordered by **year_month**. 
