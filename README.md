@@ -32,7 +32,7 @@ Time-series revenue forecasting, budget vs actual variance analysis, customer co
 
 ➤ **Core Business Questions:**
 
-**1 — Forecasting & Financial Planning**
+**1 — Forecasting & Financial Planning** <br>
 Is the lending business financially stable and predictable?
 
   1. **Revenue performance & outlook** <br> How did monthly interest and fee revenue perform from 2023–2025, and what is the expected revenue trajectory over the next 12 months?
@@ -40,7 +40,7 @@ Is the lending business financially stable and predictable?
   3. **Budget vs actual performance** <br> How reliable is financial planning given deviations between budgeted and realized revenue, cash inflows, and losses?
   4. **Delinquency & default trends** <br> Did borrowers begin falling behind on payments before credit losses increased sharply?
 
-**2 — Borrower Activation, Churn & Value**
+**2 — Borrower Activation, Churn & Value** <br>
 Which customers create value and which ones stop borrowing?
 
   1. **Customer activation timing** <br> How long does it take newly acquired customers to originate their first loan?
@@ -48,7 +48,7 @@ Which customers create value and which ones stop borrowing?
   3. **Customer lifetime value (LTV)** <br> Which customers are expected to generate the highest lifetime value after accounting for credit losses?
   4. **Value concentration** <br> How concentrated is customer value, and how dependent is portfolio performance on top-value segments?
 
-**3 — Credit Risk Modeling & Portfolio Loss Dynamics**
+**3 — Credit Risk Modeling & Portfolio Loss Dynamics** <br>
 How risky is the lending portfolio and how well is risk predicted?
 
   1. **Probability of default (PD)** <br> Which individual loans are most likely to default based on borrower, loan, and early behavior signals?
