@@ -60,8 +60,23 @@ How risky is the lending portfolio and how well is risk predicted?
 <br><br>
 
 **➤ Executive Summary:**
-WORK IN PROGRESS !!!
-FOR LATER.
+
+Key Findings
+- Revenue grew steadily as the lending portfolio expanded.
+- Actual cash collections were below scheduled payments in most months.
+- Credit losses were higher and more volatile than planned.
+- Many borrowers did not return for a second loan within 180 days.
+- Higher-risk tiers and lower decision scores showed higher default rates.
+
+Implications
+- The business is growing, but financial performance is not fully predictable.
+- Cash shortfalls and volatile losses reduce planning reliability.
+- Portfolio value depends partly on a smaller group of stronger borrowers.
+
+Recommendations
+- Monitor 30+ DPD as an early warning sign of rising defaults.
+- Use more conservative assumptions for cash collections and credit losses.
+- Keep using risk tiers and decision scores in underwriting while improving borrower retention and recovery efforts.
 
 <br><br>
 
