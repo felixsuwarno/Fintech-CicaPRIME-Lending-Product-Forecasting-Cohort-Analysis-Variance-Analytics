@@ -1,31 +1,31 @@
 # WIP ( Work in Progress ) Feb 23rd 2026
 
-# Consumer Lending “Cica PRIME” Credit Risk and Portfolio Analytics  
-**Risk Management • Portfolio Analytics • Forecasting • Stress Testing**
+# CicaPRIME: Forecasting, Cohort Analysis & Variance Analytics  
+**Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Stress Testing**
 
-This project analyzes synthetic but realistic consumer installment lending data from CICA (Consumer Installment Credit Account) Prime, a simulated consumer credit product designed to resemble real-world installment lending / BNPL-style portfolios offered by fintechs and traditional banks. The product extends unsecured credit to consumers and generates revenue through interest and fees, while incurring credit losses through delinquency and default.
+This project analyzes three years of synthetic consumer installment data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset includes loan-level, customer-level, and payment-level records, along with contractual payment schedules, macroeconomic scenarios, and internal budget plans.
 
-The dataset spans January 2023 to December 2025 and includes loan-level, customer-level, and payment-level data, along with contractual payment schedules, macroeconomic scenarios, and internal budget plans. The data captures the full credit lifecycle: customer acquisition, underwriting decisions, loan origination, repayment behavior, delinquency, default, recoveries, and portfolio-level financial outcomes.
-
-The analysis focuses on risk-aware, finance-aligned analytics, modeling how portfolio growth, repayment behavior, and credit losses are expected to evolve over time under different conditions. The goal is to evaluate portfolio health, revenue sustainability, and downside risk using predictive modeling, time-series forecasting, and scenario-based stress testing, consistent with how consumer lending analytics teams operate in practice.
+The analysis covers revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value and concentration analysis, vintage performance tracking, and macro-driven stress testing — built end-to-end using SQL and Python across a dataset that captures the full customer and loan lifecycle.
 
 <br><br>
 
 ➤ **Project Goal / Purpose:**  
 
-The goal of this project is to understand how CICA Prime’s consumer lending portfolio grows over time, how stable that growth is, and how exposed the business is to downside risk. The analysis uses forecasting, predictive modeling, and standard credit risk techniques commonly applied in consumer lending.
+This project examines how a simulated fintech lending portfolio performs over time — whether growth is stable, whether revenue is sustainable, and where the business is most exposed to downside risk.
 
-The project looks at how revenue, cash inflows, delinquency, and defaults are expected to change over time, and compares actual results to internal plans to evaluate how accurate and resilient the business’s financial planning is. At the borrower and loan level, the analysis estimates customer lifetime value, the likelihood that borrowers stop using the product, and the likelihood that loans default, with the goal of using past behavior to make informed predictions about future outcomes.
+The analysis measures how revenue and cash inflows trend over time, compares actual results against internal plans to evaluate planning accuracy, and models customer behavior at the borrower level — including how long customers stay active, which ones are likely to stop, and which generate the most value.
 
-At the portfolio level, the project measures expected credit losses, evaluates how concentrated revenue and risk are across borrowers, and tests how the portfolio would perform under different economic conditions. The goal is to determine whether portfolio growth is supported by sustainable cash flows and manageable credit risk, or whether it relies on elevated risk, loose underwriting, or a small group of borrowers—especially when economic conditions worsen.
+At the portfolio level, the project identifies where value and risk are concentrated, tracks how different borrower cohorts perform across their lifecycle, and tests how the portfolio holds up under adverse economic conditions — stress-testing whether growth is backed by solid fundamentals or dependent on a small segment of borrowers.
+
+
 
 <br><br>
 
 ➤ **Skills Demonstrated:**  
 
-Consumer lending analytics and KPI design, credit portfolio performance analysis, delinquency and default analysis (DPD, roll rates, vintage curves), cohort-based customer lifetime value (LTV) modeling, probability of default (PD) modeling, loss analysis using EAD and LGD concepts, revenue and cash-flow analysis, budget vs actual variance analysis, and macro-driven stress testing and scenario analysis
+Time-series revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value (LTV) analysis, concentration and dependency analysis, vintage performance tracking, probability of default (PD) modeling, loss analysis (EAD, LGD), and macro-driven stress testing and scenario analysis
 
-**(SQL • Python • Pandas • Time-Series Forecasting • Credit Risk Metrics • Executive-Ready Analysis)**
+**(SQL • Python • Pandas • Time-Series Forecasting • Cohort Analysis • Executive-Ready Analysis)**
 
 <br><br>
 
