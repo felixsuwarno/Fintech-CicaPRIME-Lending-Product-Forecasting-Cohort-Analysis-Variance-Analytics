@@ -35,27 +35,27 @@ Time-series revenue forecasting, budget vs actual variance analysis, customer co
 **1 — Forecasting & Financial Planning**
 Is the lending business financially stable and predictable?
 
-	1. **Revenue performance & outlook** <br> How did monthly interest and fee revenue perform from 2023–2025, and what is the expected revenue trajectory over the next 12 months?
-	2. **Cash inflows vs contractual expectations** <br> How do actual monthly cash collections compare to scheduled cash collections from 2023–2025, and what is the resulting monthly collection gap? How large is the monthly collection gap relative to scheduled cash, and how stable is this gap over time?
-	3. **Budget vs actual performance** <br> How reliable is financial planning given deviations between budgeted and realized revenue, cash inflows, and losses?
-	4. **Delinquency & default trends** <br> Did borrowers begin falling behind on payments before credit losses increased sharply?
+  1. **Revenue performance & outlook** <br> How did monthly interest and fee revenue perform from 2023–2025, and what is the expected revenue trajectory over the next 12 months?
+  2. **Cash inflows vs contractual expectations** <br> How do actual monthly cash collections compare to scheduled cash collections from 2023–2025, and what is the resulting monthly collection gap? How large is the monthly collection gap relative to scheduled cash, and how stable is this gap over time?
+  3. **Budget vs actual performance** <br> How reliable is financial planning given deviations between budgeted and realized revenue, cash inflows, and losses?
+  4. **Delinquency & default trends** <br> Did borrowers begin falling behind on payments before credit losses increased sharply?
 
 **2 — Borrower Activation, Churn & Value**
 Which customers create value and which ones stop borrowing?
 
-	1. **Customer activation timing** <br> How long does it take newly acquired customers to originate their first loan?
-	2. **Borrower inactivity & churn risk** <br> Which customers are most likely to stop borrowing after their initial loan?
-	3. **Customer lifetime value (LTV)** <br> Which customers are expected to generate the highest lifetime value after accounting for credit losses?
-	4. **Value concentration** <br> How concentrated is customer value, and how dependent is portfolio performance on top-value segments?
+  1. **Customer activation timing** <br> How long does it take newly acquired customers to originate their first loan?
+  2. **Borrower inactivity & churn risk** <br> Which customers are most likely to stop borrowing after their initial loan?
+  3. **Customer lifetime value (LTV)** <br> Which customers are expected to generate the highest lifetime value after accounting for credit losses?
+  4. **Value concentration** <br> How concentrated is customer value, and how dependent is portfolio performance on top-value segments?
 
 **3 — Credit Risk Modeling & Portfolio Loss Dynamics**
 How risky is the lending portfolio and how well is risk predicted?
 
-	1. **Probability of default (PD)** <br> Which individual loans are most likely to default based on borrower, loan, and early behavior signals?
-	2. **Exposure at default (EAD)** <br> How much exposure remains outstanding at the time loans default?
-	3. **Loss given default (LGD)** <br> How severe are losses after recoveries, and how do they vary across segments?
-	4. **Vintage risk performance** <br> How do loans from different origination months perform by the end of their first year?
-	5. **Decision Score Effectiveness** <br> How effectively does the current decision score separate low-risk and high-risk borrowers?
+  1. **Probability of default (PD)** <br> Which individual loans are most likely to default based on borrower, loan, and early behavior signals?
+  2. **Exposure at default (EAD)** <br> How much exposure remains outstanding at the time loans default?
+  3. **Loss given default (LGD)** <br> How severe are losses after recoveries, and how do they vary across segments?
+  4. **Vintage risk performance** <br> How do loans from different origination months perform by the end of their first year?
+  5. **Decision Score Effectiveness** <br> How effectively does the current decision score separate low-risk and high-risk borrowers?
 
 <br><br>
 
