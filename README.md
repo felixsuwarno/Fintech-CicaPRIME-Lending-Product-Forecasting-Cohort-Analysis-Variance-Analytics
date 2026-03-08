@@ -1,5 +1,3 @@
-# WIP ( Work in Progress ) Feb 23rd 2026
-
 # Fintech CicaPRIME - Lending Product - Forecasting, Cohort Analysis & Variance Analytics  
 **Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Stress Testing**
 
