@@ -1041,5 +1041,24 @@ Even if the default rate looks “normal,” a bigger book means bigger dollar l
 Focus on stopping loans from getting worse once they are slightly late.
 If you can prevent 1–29 day late loans from becoming 30–59 days late, you reduce future defaults.
 
+<br><br>
 
+**3.5. Decision Score Effectiveness**
 
+How well does the current decision score predict which borrowers are more likely to default within 12 months?
+
+**SQL methods :**
+
+- Filter applications table to keep only score data: Reduce applications to only the fields needed for this analysis and remove rows without a score. Keep application_id and decision_score.
+- Filter loans table, enforce full 12-month observation window, and create the 12-month default outcome flag: Reduce loans to only the columns needed for the analysis and ensure every loan had enough time to default within 12 months.
+  - Keep only loan_id, application_id, origination_date, and default_date.
+  - Keep only loans in 2023 and 2024 ( omit every loan in 2025 ) so each loan has a full 12-month observation window in the 2023–2025 dataset.
+  - Create defaulted_12m : Set the value to 1 if the loan defaulted within 12 months of origination, otherwise set it to 0. A loan counts as defaulted within 12 months only when default_date exists and occurs within 12 months after origination_date.
+- Join scored applications to originated loans: Join the filtered application table to the filtered loan table on application_id to bring together loan_id, decision_score, and defaulted_12m.
+- Create decision score buckets for risk comparison: Generate score_band by grouping the numeric decision score into ordered score ranges (for example deciles or fixed score intervals).
+- Aggregate score band performance: 
+  - Group the dataset by score_band 
+  - create loan_count as the number of loans in each score band 
+  - create defaults_12m_count as the total number of loans that defaulted within 12 months in each score band.
+  - Create default_rate_12m as defaults_12m_count / loan_count.
+  - Create score_band_rank so the results sort from lowest score band (highest risk) to highest score band (lowest risk).
