@@ -3,27 +3,26 @@
 # Fintech CicaPRIME - Lending Product - Forecasting, Cohort Analysis & Variance Analytics  
 **Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Stress Testing**
 
-This project analyzes three years of synthetic consumer installment data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset includes loan-level, customer-level, and payment-level records, along with contractual payment schedules, macroeconomic scenarios, and internal budget plans.
+This project analyzes three years of synthetic consumer installment lending data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset contains loan-level, customer-level, and payment-level records, along with repayment schedules, macroeconomic scenarios, and internal budget plans.
 
-The analysis covers revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value and concentration analysis, vintage performance tracking, and macro-driven stress testing — built end-to-end using SQL and Python across a dataset that captures the full customer and loan lifecycle.
+The analysis evaluates revenue forecasting, budget vs. actual variance, borrower cohort behavior, churn dynamics, lifetime value and value concentration, vintage performance, and macro-driven stress scenarios. The full workflow is built end-to-end using SQL and Python across a dataset representing the entire customer and loan lifecycle—from acquisition and origination to repayment, delinquency, and loss outcomes.
 
 <br><br>
 
 ➤ **Project Goal / Purpose:**  
 
-This project examines how a simulated fintech lending portfolio performs over time — whether growth is stable, whether revenue is sustainable, and where the business is most exposed to downside risk.
+This project evaluates how a simulated fintech lending portfolio performs over time—examining whether portfolio growth is stable, whether revenue generation is sustainable, and where the business may be exposed to downside risk.
 
-The analysis measures how revenue and cash inflows trend over time, compares actual results against internal plans to evaluate planning accuracy, and models customer behavior at the borrower level — including how long customers stay active, which ones are likely to stop, and which generate the most value.
+The analysis measures trends in revenue and cash collections, compares realized results against internal plans to assess forecasting accuracy, and models borrower behavior at the customer level. This includes analyzing borrower activation, repeat borrowing patterns, inactivity risk, and identifying which customer segments generate the most long-term value.
 
-At the portfolio level, the project identifies where value and risk are concentrated, tracks how different borrower cohorts perform across their lifecycle, and tests how the portfolio holds up under adverse economic conditions — stress-testing whether growth is backed by solid fundamentals or dependent on a small segment of borrowers.
-
+At the portfolio level, the project analyzes value concentration and credit risk distribution, tracks how borrower cohorts perform across their lifecycle, and evaluates how the portfolio behaves under adverse economic scenarios. The objective is to determine whether growth is supported by healthy fundamentals or overly dependent on a small subset of borrowers.
 
 
 <br><br>
 
 ➤ **Skills Demonstrated:**  
 
-Time-series revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value (LTV) analysis, concentration and dependency analysis, vintage performance tracking, probability of default (PD) modeling, loss analysis (EAD, LGD), and macro-driven stress testing and scenario analysis
+Time-series revenue forecasting, budget vs actual variance analysis, customer cohort and churn modeling, lifetime value (LTV) analysis, concentration and dependency analysis, vintage performance tracking, probability of default (PD) modeling, loss analysis (EAD, LGD).
 
 **(SQL • Python • Pandas • Time-Series Forecasting • Cohort Analysis • Executive-Ready Analysis)**
 
