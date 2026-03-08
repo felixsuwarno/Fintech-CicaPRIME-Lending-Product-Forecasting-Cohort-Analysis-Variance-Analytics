@@ -576,20 +576,19 @@ This query summarizes the LTV data into a set of statistics that are easier to r
 - **Return bucket results in order:** Output the bucket-level summary table ordered from bucket 1 to bucket 5 for easy comparison across tiers.
   
 **Python Method**
-- **Load customer-level LTV data:** Read **02_3a_customer_LTV_180d**.csv into a dataframe so each row represents one customer’s 180-day performance.
-- **Compute total collected cash:** Sum the total_payment_180d column to measure how much cash the portfolio collected within 180 days.
-- **Compute total credit losses:** Sum the total_loss_180d column to measure how much principal was lost due to defaults within 180 days.
-- **Identify the most profitable customer:** Sort customers by net_ltv_180d in descending order and select the first row to find the highest net value contributor.
-- **Generate a concise report:** Print the portfolio-level totals and the top customer’s metrics in a clean, readable format for documentation and review.
+- **Load the LTV segment summary table:** Read 02_3b_customer_LTV_180d_summary.csv into a dataframe so each row represents one customer value group created from the SQL NTILE segmentation.
+- **Rename segment labels for reporting:** Map the numeric segment groups (1–5) to descriptive customer value segments: Top Value Customers, High Value Customers, Mid Value Customers, Low Value Customers, Negative / Minimal Value Customers so the results are easier to interpret in a business report.
+- **Prepare the reporting table:** Select the segment name and average 180-day LTV column, rename the metric to avg_ltv, and sort the segments in logical descending value order.
+- **Print the segment summary:** Format the output as a simple table showing Segment and Average LTV, with currency formatting for readability.
 
 <br>
 
 <p align="center">
   <img src="Charts/02_3_customer_LTV_180d_summary.png" style="width:25%;">
 </p>
-<p align="center">
-  There is no data visualization chart necessary to answer the business question.
-</p>
+
+**Key Insights** <br>
+All customer segments generate positive average LTV. Even the lowest segment produces about $157 in 180-day LTV, indicating that, on average, borrowers across the portfolio still generate net value after accounting for credit losses.
 
 <br><br>
 
@@ -619,12 +618,12 @@ How concentrated is customer value, and how dependent is portfolio performance o
 <br><br>
 
 **2.5. Conclusion and Business Recommendation**
-Many customers do not return for another loan after their first one, so repeat borrowing is limited. Customer value is also uneven: a portion of borrowers generates most of the portfolio’s value, while others contribute little or stop borrowing early. Risk tier at signup explains much of this behavior, while income, age, region, and acquisition channel show smaller differences.
+Many customers do not return for another loan after their first one, so repeat borrowing is limited. Customer value also varies across borrower segments: higher-value segments generate substantially more value per customer, while lower-value segments generate much smaller value within the same 180-day period. Risk tier at signup explains much of this behavior, while income, age, region, and acquisition channel show smaller differences.
 
 Business Recommendation
-- Focus on customers who are more likely to return. Borrowers in stronger risk tiers tend to borrow again more often and generate more value.
-- Reduce first-loan churn. Since many customers do not take a second loan within 180 days, improving follow-up offers or engagement after the first loan could increase repeat borrowing.
-- Monitor value concentration. Because a smaller group of customers generates most of the value, the business should track whether the portfolio becomes too dependent on that group.
+- Prioritize higher-value borrower segments. Customers who generate stronger LTV tend to contribute more value per borrower, so focusing on these segments can improve portfolio profitability.
+- Reduce first-loan churn. Since many customers do not take a second loan within 180 days, improving follow-up offers or engagement after the first loan may increase repeat borrowing.
+- Monitor low-value borrower segments. Some borrower groups generate much lower value within the first 180 days, so their performance should be tracked to ensure they remain economically viable for the portfolio.
 
 <br><br>
 
