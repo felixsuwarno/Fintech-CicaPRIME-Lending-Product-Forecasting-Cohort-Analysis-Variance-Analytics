@@ -1103,7 +1103,7 @@ How well does the current decision score predict which borrowers are more likely
 - **Most booked loans are concentrated in the highest score band.** The 700+ group contains the majority of loans by count, indicating that most observed originations are concentrated among higher-scored borrowers.
 - **The lowest band should be interpreted cautiously because of small sample size.** With only 24 loans, the observed default rate in 550–599 is more sensitive to random variation than the rates in larger bands.
 
-- <br><br>
+<br><br>
 
 **3.6. Conclusion and Business Recommendation**
 
