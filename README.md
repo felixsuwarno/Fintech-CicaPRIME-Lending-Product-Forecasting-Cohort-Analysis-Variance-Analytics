@@ -115,6 +115,7 @@ The analysis uses seven core tables representing a consumer installment lending 
 ## The Main Report - Key Questions Answered
 
 ### 1 — Forecasting & Financial Planning
+Is the lending business financially stable and predictable?
 
 <br>
 
@@ -400,9 +401,21 @@ To create the required table, the process is complex. Therefore, the SQL logic w
 - Early delinquency (1–29) rises before severe delinquency builds.
 - Loans appear to migrate from Current → early delinquency → severe delinquency over time.
 
+<br>
+
+**1.5. Conclusion and Business Recommendation**<br><br>
+
+Revenue is growing steadily as the lending portfolio gets bigger. However, the business is not fully predictable financially. Actual cash collected from borrowers is usually lower than what the payment schedule expects, and credit losses are higher than what the budget planned. Delinquency also starts increasing before defaults rise, which shows that repayment problems appear earlier than the losses recorded in the financial results.
+
+Business Recommendation
+- Watch loans that become 30+ days late. When more loans pass 30 days late, it often means defaults will rise later. This should be treated as an early warning signal.
+- Make financial plans more conservative. Budgets for cash collections and credit losses should assume lower collections and higher losses than originally planned.
+- Be careful when the loan portfolio grows. As more loans are issued, repayment behavior should be monitored closely so that small delinquency problems do not grow into larger losses later.
+
 <br><br>
 
 ### 2 — Borrower Activation, Churn & Value
+Which customers create value and which ones stop borrowing?
 
 <br>
 
@@ -588,10 +601,20 @@ How concentrated is customer value, and how dependent is portfolio performance o
 **Key Insights** <br>
 **Value is moderately concentrated:** About 60% of customers generate ~80% of total LTV, so the portfolio is not dependent on a tiny elite group. The portfolio is diversified and not fragile.
 
-<br>
-<br>
+<br><br>
+
+**2.5. Conclusion and Business Recommendation**
+Many customers do not return for another loan after their first one, so repeat borrowing is limited. Customer value is also uneven: a portion of borrowers generates most of the portfolio’s value, while others contribute little or stop borrowing early. Risk tier at signup explains much of this behavior, while income, age, region, and acquisition channel show smaller differences.
+
+Business Recommendation
+- Focus on customers who are more likely to return. Borrowers in stronger risk tiers tend to borrow again more often and generate more value.
+- Reduce first-loan churn. Since many customers do not take a second loan within 180 days, improving follow-up offers or engagement after the first loan could increase repeat borrowing.
+- Monitor value concentration. Because a smaller group of customers generates most of the value, the business should track whether the portfolio becomes too dependent on that group.
+
+<br><br>
 
 ### 3 — Credit Risk Modeling & Portfolio Loss Dynamics
+How risky is the lending portfolio and how well is risk predicted?
 
 <br>
 
@@ -1079,3 +1102,14 @@ How well does the current decision score predict which borrowers are more likely
 - **The decision score is directionally predictive, but not perfectly monotonic.** Default risk is generally lower in higher score bands, but the ordering is not exact across all bands.
 - **Most booked loans are concentrated in the highest score band.** The 700+ group contains the majority of loans by count, indicating that most observed originations are concentrated among higher-scored borrowers.
 - **The lowest band should be interpreted cautiously because of small sample size.** With only 24 loans, the observed default rate in 550–599 is more sensitive to random variation than the rates in larger bands.
+
+- <br><br>
+
+**3.6. Conclusion and Business Recommendation**
+
+Credit risk is present but generally follows the expected patterns. Higher-risk borrower tiers default more often, which shows the risk ranking is working. When loans default, most of the unpaid principal is lost, meaning recoveries are usually small. Risk also changes across origination months, with some vintages performing worse than others rather than risk rising steadily over time. The decision score helps separate safer borrowers from riskier ones, although the relationship is not perfectly ordered across score bands.
+
+Business Recommendation
+- Continue using risk tier and decision scores in underwriting. They successfully separate safer borrowers from higher-risk borrowers.
+- Monitor vintages closely. Some origination months perform worse than others, so those periods should be reviewed to understand what changed.
+- Improve recovery strategies after default. Since most unpaid principal is not recovered, even small improvements in recoveries could reduce total portfolio losses.
