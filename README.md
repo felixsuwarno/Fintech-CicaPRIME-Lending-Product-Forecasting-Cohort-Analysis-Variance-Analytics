@@ -1,7 +1,6 @@
 # Fintech CicaPRIME - Lending Product - Forecasting, Cohort Analysis & Variance Analytics  
 **Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Stress Testing**
 
-Forecasting • Cohort Analysis • Churn Modeling • Variance Analysis • Credit Risk Analytics
 
 This project analyzes three years of synthetic consumer installment lending data from a simulated fintech lending portfolio, spanning January 2023 to December 2025. The dataset contains loan-level, customer-level, and payment-level records, along with repayment schedules and internal budget plans.
 
